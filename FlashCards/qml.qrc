@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>pages/main/FlashCardDelegate.qml</file>
+        <file>pages/main/FlashCardDialog.qml</file>
+        <file>pages/main/FlashCardModel.qml</file>
+        <file>pages/quiz/QuizPage.qml</file>
+        <file>pages/main/FlashCardPage.qml</file>
+        <file>pages/main/FlashCardDeleteDialog.qml</file>
+        <file>pages/quiz/QuizFinishDialog.qml</file>
+    </qresource>
+</RCC>
