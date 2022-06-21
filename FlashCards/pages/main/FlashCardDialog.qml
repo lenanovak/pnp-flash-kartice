@@ -13,6 +13,8 @@ Dialog {
 
     property FlashCardModel flashCardModel
     property int selectedFlashCardIndex
+    property int limitQuestion: 36
+    property int limitAnswer: 56
 
     function isNewItem() {
         return selectedFlashCardIndex === -1
@@ -34,8 +36,10 @@ Dialog {
 
     onAccepted: {
         isNewItem() ? addFlashCard() : changeFlashCard()
+        flashCardPage.filter = false
     }
     onRejected: flashCardDialog.close()
+
 
     contentItem: ColumnLayout {
         GridLayout {
@@ -50,7 +54,8 @@ Dialog {
                 cursorVisible: true
                 Layout.fillWidth: true
                 text: isNewItem() ? "" : flashCardModel.get(selectedFlashCardIndex).question
-                maximumLength: 40
+                selectByMouse: true
+                onTextChanged: if (length > limitQuestion) remove(limitQuestion, length)
             }
 
             Label {
@@ -62,7 +67,8 @@ Dialog {
                 cursorVisible: true
                 Layout.fillWidth: true
                 text: isNewItem() ? "" : flashCardModel.get(selectedFlashCardIndex).answer
-                maximumLength: 60
+                selectByMouse: true
+                onTextChanged: if (length > limitAnswer) remove(limitAnswer, length)
             }
 
             Label {
@@ -74,7 +80,8 @@ Dialog {
                 cursorVisible: true
                 Layout.fillWidth: true
                 text: isNewItem() ? "" : flashCardModel.get(selectedFlashCardIndex).keyword
-                maximumLength: 60
+                selectByMouse: true
+                onTextChanged: if (length > limitQuestion) remove(limitQuestion, length)
             }
         }
     }

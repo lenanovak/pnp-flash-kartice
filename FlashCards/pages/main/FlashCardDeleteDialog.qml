@@ -13,8 +13,15 @@ Dialog {
     property FlashCardModel flashCardModel
     property int selectedFlashCardIndex
 
+    Label {
+        anchors.fill: parent
+        Layout.fillWidth: true
+        text: qsTr("Pitanje: " + flashCardModel.get(selectedFlashCardIndex).question)
+    }
+
     onAccepted: {
         flashCardModel.remove(selectedFlashCardIndex)
+        flashCardPage.filter = false
     }
     onRejected: flashCardDeleteDialog.close()
 

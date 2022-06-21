@@ -8,5 +8,6 @@
         <file>pages/main/FlashCardPage.qml</file>
         <file>pages/main/FlashCardDeleteDialog.qml</file>
         <file>pages/quiz/QuizFinishDialog.qml</file>
+        <file>pages/main/FlashCardModelFiltered.qml</file>
     </qresource>
 </RCC>

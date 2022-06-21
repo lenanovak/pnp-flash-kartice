@@ -16,7 +16,7 @@ ListModel {
     }
 
     ListElement {
-        question: "Kako se zove trenutno važeća hrvatska valuta?"
+        question: "Kako se zove važeća hrvatska valuta?"
         answer: "Kuna"
         keyword: "Novac"
     }

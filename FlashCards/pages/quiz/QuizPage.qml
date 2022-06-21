@@ -9,14 +9,11 @@ Page {
     property ListModel questions
     property bool noQuestions: true
     property bool showAnswer: false
-    //property bool advance: false
     property string question
     property string answer
 
     property int rightAnswers: 0
     property int testedQuestions: 0
-
-    //property string showText
 
     function newQuestion() {
         if (questions.count < 1) {
@@ -114,9 +111,13 @@ Page {
                 Layout.margins: 20
                 Material.background: Material.color(Material.Green, Material.Shade800)
                 onClicked: {
-                    newQuestion()
-                    showAnswer= false
-                    //advance = false
+                    if (testedQuestions === questions.count) {
+                        quizFinishDialog.visible = true
+                    } else {
+                        newQuestion()
+                        showAnswer= false
+                        //advance = false
+                    }
                 }
             }
         }

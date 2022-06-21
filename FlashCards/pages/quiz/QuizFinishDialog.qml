@@ -14,7 +14,7 @@ Dialog {
     property bool noQuestions: quizPage.noQuestions
     property int rightAnswers: quizPage.rightAnswers
     property int testedQuestions: quizPage.testedQuestions
-    property int totalQuestions: noQuestions ? 0: quizPage.questions.count
+    property int totalQuestions: noQuestions ? 0 : quizPage.questions.count
     property int percentage: (rightAnswers / testedQuestions*100).toFixed(2)
 
     contentItem: Rectangle {

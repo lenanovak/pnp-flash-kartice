@@ -12,15 +12,15 @@ ItemDelegate {
     signal updateFlashCard(int index)
     signal deleteFlashCard(int index)
 
+    //property FlashCardModel flashCardModel
+
     onClicked: ListView.view.currentIndex = index
 
     contentItem: ColumnLayout {
         spacing: 0
-
         RowLayout {
             ColumnLayout {
                 id: flashCardColumn
-
                 Label {
                     id: flashCardQuestion
                     font.pixelSize: Qt.application.font.pixelSize * 2
