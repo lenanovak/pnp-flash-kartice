@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
+#include <QQmlContext>
+#include <QFileInfo>
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +11,12 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    //for reading and writing? JSON file
+    qputenv("QML_XHR_ALLOW_FILE_READ", QByteArray("1"));
+    qputenv("QML_XHR_ALLOW_FILE_WRITE", QByteArray("1"));
+
+    QString projectFolder = "/FlashCards";
+    QString path = QFileInfo(".").absolutePath();// + projectFolder;
     QQmlApplicationEngine engine;
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -19,6 +26,9 @@ int main(int argc, char *argv[])
         }
     }, Qt::QueuedConnection);
     engine.load(url);
+
+    engine.rootContext()->setContextProperty("path", QVariant::fromValue(&path));
+    engine.setOfflineStoragePath(projectFolder);
 
     return app.exec();
 }

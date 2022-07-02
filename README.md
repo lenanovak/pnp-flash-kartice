@@ -21,12 +21,15 @@ Demo: https://drive.google.com/file/d/14W2JVZ1Q0Z1n7RtkMrlV16BOWrPK_yPa/view?usp
 - QtQuick.Controls
 - QtQuick.Controls.Material
 - QtQuick.Layouts
+- QtQuick.LocalStorage
 - QtQuick.Window
-
 
 #### First time setup:
 1. Clone the project
 2. Import `FlashCard.pro` into the QtCreator
 3. Run the project
+4. To add init data, click on the "Options / Import questions" (_"Opcije / Uvezi pitanja"_)action and choose `init_data.json` file
+
+Created database can be found locally (for Windows): `C:\Users\username\AppData\Roaming\FlashCard\QML\OfflineStorage\Databases`
 
 Made by: **Lena Novak**

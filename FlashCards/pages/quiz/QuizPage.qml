@@ -35,7 +35,8 @@ Page {
         Label {
             id: currentLabel
             text: noQuestions ? qsTr(" Potrebna barem jedna kartica! ") : (showAnswer ? answer : question)
-            font.pixelSize: Qt.application.font.pixelSize * (showAnswer ? 2 : 3)
+            //font.pixelSize: Qt.application.font.pixelSize * (showAnswer ? 2 : 3)
+            font.pixelSize: Qt.application.font.pixelSize * (showAnswer ? 3 : 2)
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
@@ -98,7 +99,8 @@ Page {
                 Layout.margins: 20
                 Material.background: Material.color(Material.Red, Material.Shade800)
                 onClicked: {
-                    quizFinishDialog.visible = true
+                    quizConfirmEndDialog.visible = true
+                    //quizFinishDialog.visible = true
                 }
             }
 
@@ -125,6 +127,12 @@ Page {
 
     QuizFinishDialog {
         id: quizFinishDialog
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+    }
+
+    QuizConfirmEndDialog {
+        id: quizConfirmEndDialog
         x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
     }

@@ -10,6 +10,8 @@ SOURCES += \
 RESOURCES += qml.qrc \
     controls_conf.qrc
 
+HEADERS += fileio.h
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 

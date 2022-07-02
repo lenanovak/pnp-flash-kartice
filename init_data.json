@@ -1,0 +1,26 @@
+[{
+		"keyword": "Zagreb",
+        "answer": "Zagreb",
+        "question": "Koji je glavni grad Hrvatske?"
+    }, {
+        "keyword": "Otoci",
+        "answer": "Cres, Krk, Brač, Hvar and Pag",
+        "question": "Nabroji 5 najvećih otoka u Hrvatskoj."
+    }, {
+        "keyword": "Novac",
+        "answer": "Kuna",
+        "question": "Kako se zove važeća hrvatska valuta?"
+    }, {
+        "keyword": "Poluotok",
+        "answer": "Istra",
+        "question": "Koji je najveći hrvatski poluotok?"
+    }, {
+        "keyword": "Sjeverni otok",
+        "answer": "Krk",
+        "question": "Koji je hrvatski najsjeverniji otok?"
+    }, {
+        "keyword": "Grad",
+        "answer": "Rijeka",
+        "question": "Koji je treći najveći grad u Hrvatskoj?"
+    }
+]

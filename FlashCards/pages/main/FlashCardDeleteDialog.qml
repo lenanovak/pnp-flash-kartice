@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
+import QtQuick.LocalStorage
+import "qrc:/Database.js" as JS
 
 Dialog {
     id: flashCardDeleteDialog
@@ -16,13 +18,14 @@ Dialog {
     Label {
         anchors.fill: parent
         Layout.fillWidth: true
-        text: qsTr("Pitanje: " + flashCardModel.get(selectedFlashCardIndex).question)
+        text: qsTr("Pitanje: " + flashCardsList.model.get(selectedFlashCardIndex).question)
     }
 
     onAccepted: {
-        flashCardModel.remove(selectedFlashCardIndex)
-        flashCardPage.filter = false
+        JS.dbDeleteRow(JS.getID(selectedFlashCardIndex), selectedFlashCardIndex)
     }
-    onRejected: flashCardDeleteDialog.close()
+    onRejected: {
+        flashCardDeleteDialog.close()
+    }
 
 }

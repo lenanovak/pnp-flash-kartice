@@ -3,6 +3,8 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Window
+import QtQuick.LocalStorage
+import "qrc:/Database.js" as JS
 
 ItemDelegate {
     id: flashCardDelegate
@@ -12,7 +14,7 @@ ItemDelegate {
     signal updateFlashCard(int index)
     signal deleteFlashCard(int index)
 
-    //property FlashCardModel flashCardModel
+    //property alias labelNameText: labelname.text
 
     onClicked: ListView.view.currentIndex = index
 
@@ -23,7 +25,8 @@ ItemDelegate {
                 id: flashCardColumn
                 Label {
                     id: flashCardQuestion
-                    font.pixelSize: Qt.application.font.pixelSize * 2
+                    //font.pixelSize: Qt.application.font.pixelSize * 2
+                    font.pixelSize: text.length < 48 ? Qt.application.font.pixelSize * 2 : Qt.application.font.pixelSize * (text.length / 40)
                     text: model.question
                 }
             }
@@ -45,19 +48,21 @@ ItemDelegate {
                 leftPadding: 18
                 rightPadding: 18
                 Material.background: Material.color(Material.Red, Material.Shade800)
-                //onClicked: flashCardDelegate.ListView.view.model.remove(index)
                 onClicked: deleteFlashCard(index)
             }
         }
         Label {
             id: flashCardAnswer
-            visible: flashCardDelegate.checked
+            visible: expandButton ? true : (flashCardDelegate.checked ? true : false)
             text: "Odgovor: " + model.answer
+            //font.pixelSize: text.length < 48 ? Qt.application.font.pixelSize * 2 : Qt.application.font.pixelSize * (text.length / 40)
         }
         Label {
             id: flashCardKeyword
-            visible: flashCardDelegate.checked
+            //visible: flashCardDelegate.checked
+            visible: expandButton ? true : (flashCardDelegate.checked ? true : false)
             text: "Ključna riječ: " + model.keyword
+            //font.pixelSize: text.length < 48 ? Qt.application.font.pixelSize * 2 : Qt.application.font.pixelSize * (text.length / 40)
         }
     }
 }

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
+import "qrc:/Database.js" as JS
 
 Dialog {
     id: flashCardDialog
@@ -13,33 +14,28 @@ Dialog {
 
     property FlashCardModel flashCardModel
     property int selectedFlashCardIndex
-    property int limitQuestion: 36
-    property int limitAnswer: 56
 
     function isNewItem() {
         return selectedFlashCardIndex === -1
     }
 
     function addFlashCard() {
-        flashCardModel.append({
-                                  "question": flashCardQuestionTextField.text,
-                                  "answer": flashCardAnswerTextField.text,
-                                  "keyword": flashCardKeywordTextField.text
-                              })
+        JS.dbInsert(flashCardQuestionTextField.text, flashCardAnswerTextField.text, flashCardKeywordTextField.text)
     }
 
     function changeFlashCard() {
-        flashCardModel.get(selectedFlashCardIndex).question = flashCardQuestionTextField.text
-        flashCardModel.get(selectedFlashCardIndex).answer = flashCardAnswerTextField.text
-        flashCardModel.get(selectedFlashCardIndex).keyword = flashCardKeywordTextField.text
+        JS.dbUpdate(flashCardQuestionTextField.text,
+                    flashCardAnswerTextField.text,
+                    flashCardKeywordTextField.text,
+                    JS.getID(selectedFlashCardIndex),
+                    selectedFlashCardIndex)
     }
 
     onAccepted: {
         isNewItem() ? addFlashCard() : changeFlashCard()
-        flashCardPage.filter = false
     }
-    onRejected: flashCardDialog.close()
 
+    onRejected: flashCardDialog.close()
 
     contentItem: ColumnLayout {
         GridLayout {
@@ -51,11 +47,13 @@ Dialog {
 
             TextField {
                 id: flashCardQuestionTextField
+                placeholderText: qsTr("Dodaj pitanje")
                 cursorVisible: true
                 Layout.fillWidth: true
-                text: isNewItem() ? "" : flashCardModel.get(selectedFlashCardIndex).question
+                text: isNewItem() ? "" : flashCardsList.model.get(selectedFlashCardIndex).question
                 selectByMouse: true
-                onTextChanged: if (length > limitQuestion) remove(limitQuestion, length)
+                maximumLength: 128
+                //onTextChanged: if (length > limitQuestion) remove(limitQuestion, length)
             }
 
             Label {
@@ -64,11 +62,13 @@ Dialog {
 
             TextField {
                 id: flashCardAnswerTextField
+                placeholderText: qsTr("Dodaj odgovor")
                 cursorVisible: true
                 Layout.fillWidth: true
-                text: isNewItem() ? "" : flashCardModel.get(selectedFlashCardIndex).answer
+                text: isNewItem() ? "" : flashCardsList.model.get(selectedFlashCardIndex).answer
                 selectByMouse: true
-                onTextChanged: if (length > limitAnswer) remove(limitAnswer, length)
+                maximumLength: 128
+                //onTextChanged: if (length > limitAnswer) remove(limitAnswer, length)
             }
 
             Label {
@@ -77,11 +77,13 @@ Dialog {
 
             TextField {
                 id: flashCardKeywordTextField
+                placeholderText: qsTr("Dodaj ključnu riječ")
                 cursorVisible: true
                 Layout.fillWidth: true
-                text: isNewItem() ? "" : flashCardModel.get(selectedFlashCardIndex).keyword
+                text: isNewItem() ? "" : flashCardsList.model.get(selectedFlashCardIndex).keyword
                 selectByMouse: true
-                onTextChanged: if (length > limitQuestion) remove(limitQuestion, length)
+                maximumLength: 128
+                //onTextChanged: if (length > limitQuestion) remove(limitQuestion, length)
             }
         }
     }

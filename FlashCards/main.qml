@@ -3,9 +3,11 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Window
+import QtQuick.LocalStorage
 
 import "./pages/main" as FlashCard
 import "./pages/quiz" as Quiz
+import "qrc:/Database.js" as JS
 
 ApplicationWindow {
     id: window
@@ -17,6 +19,10 @@ ApplicationWindow {
     height: 500
     visible: true
     title: qsTr("Kartice za učenje")
+
+    Component.onCompleted: {
+        JS.dbInit()
+    }
 
     FlashCard.FlashCardPage {
         id: flashCardPage
