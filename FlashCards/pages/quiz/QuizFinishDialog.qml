@@ -32,5 +32,6 @@ Dialog {
         stackView.pop()
         quizPage.rightAnswers = 0
         quizPage.testedQuestions = 0
+        quizPage.prevQ = Array.from({length: questions.count}, (_, index) => index)
     }
 }

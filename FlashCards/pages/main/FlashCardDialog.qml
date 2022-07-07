@@ -40,12 +40,12 @@ Dialog {
 
     onAccepted: {
         isNewItem() ? addFlashCard() : changeFlashCard()
-        selectedFlashCardIndex = 0
+        selectedFlashCardIndex = -1
     }
 
     onRejected: {
         flashCardDialog.close()
-        selectedFlashCardIndex = 0
+        selectedFlashCardIndex = -1
     }
 
     contentItem: ColumnLayout {

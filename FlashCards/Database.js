@@ -40,7 +40,6 @@ function dbReadAll()
 
 function dbInsert(question, answer, keyword)
 {
-    //console.log("vrijednost DELETED = " + deleted)
     var db = dbGetHandle()
     var id = 0
     db.transaction(function (tx) {
@@ -48,7 +47,7 @@ function dbInsert(question, answer, keyword)
                       [question, answer, keyword])
     })
 
-    console.log("Adding a new flashcard")
+    //console.log("Adding a new flashcard")
     flashCardsList.model.append({
                                     //id: id,
                                     question: question,
@@ -89,7 +88,7 @@ function getID(rowID)
 function dbUpdate(question, answer, keyword, id, rowID)
 {
     var db = dbGetHandle()
-    console.log("---UPDATE---")
+    //console.log("---UPDATE---")
     db.transaction(function (tx) {
         tx.executeSql(
                     'update flashcards set question=?, answer=?, keyword=? where id = ?', [question, answer, keyword, id])
@@ -100,16 +99,16 @@ function dbUpdate(question, answer, keyword, id, rowID)
                                          keyword: keyword
                                      }))
     checkDuplicates()
-    console.log("update ID: " + id)
-    console.log("update rowID: " + rowID)
+    //console.log("update ID: " + id)
+    //console.log("update rowID: " + rowID)
 }
 
 function dbDeleteRow(id, rowID)
 {
     var db = dbGetHandle()
-    console.log("---DELETE---")
-    console.log("delete ID: " + id)
-    console.log("delete rowID: " + rowID)
+    //console.log("---DELETE---")
+    //console.log("delete ID: " + id)
+    //console.log("delete rowID: " + rowID)
     db.transaction(function (tx) {
         tx.executeSql('delete from flashcards where id = ?', [id])
     })
@@ -140,10 +139,10 @@ function loadData(fileUrl)
         if (xhr.readyState == XMLHttpRequest.DONE) {
             var response = xhr.responseText
             var responseJSON = JSON.parse(response)
-            for (var i = 0; i < responseJSON.length; i++)
-            {
-                dbInsert(responseJSON[i].question, responseJSON[i].answer, responseJSON[i].keyword)
-                checkDuplicates()
+            for (var i = 0; i < responseJSON.length; i++) {
+                if (!checkDuplicates(responseJSON[i].question, responseJSON[i].answer, responseJSON[i].keyword)) {
+                    dbInsert(responseJSON[i].question, responseJSON[i].answer, responseJSON[i].keyword)
+                }
             }
         }
     }

@@ -13,7 +13,6 @@ ItemDelegate {
 
     signal updateFlashCard(int index)
     signal deleteFlashCard(int index)
-    signal resetFlashCards(bool visiblity)
 
     onClicked: ListView.view.currentIndex = index
 
@@ -25,6 +24,8 @@ ItemDelegate {
                 Label {
                     id: flashCardQuestion
                     font.pixelSize: Qt.application.font.pixelSize * 2
+                    Layout.maximumWidth: Window.width - 200
+                    wrapMode: Label.WordWrap
                     text: model.question
                 }
             }
@@ -51,11 +52,16 @@ ItemDelegate {
             id: flashCardAnswer
             visible: flashCardDelegate.checked
             text: "Odgovor: " + model.answer
+            Layout.maximumWidth: Window.width - 200
+            wrapMode: Label.WordWrap
+
         }
         Label {
             id: flashCardKeyword
             visible: flashCardDelegate.checked
             text: "Ključna riječ: " + model.keyword
+            Layout.maximumWidth: Window.width - 200
+            wrapMode: Label.WordWrap
         }
     }
 }

@@ -19,13 +19,17 @@ Dialog {
         anchors.fill: parent
         Layout.fillWidth: true
         text: qsTr("Pitanje: " + flashCardsList.model.get(selectedFlashCardIndex).question)
+        Layout.maximumWidth: parent.width
+        wrapMode: Label.WordWrap
     }
 
     onAccepted: {
         JS.dbDeleteRow(JS.getID(selectedFlashCardIndex), selectedFlashCardIndex)
+        selectedFlashCardIndex = -1
     }
     onRejected: {
         flashCardDeleteDialog.close()
+        selectedFlashCardIndex = -1
     }
 
 }

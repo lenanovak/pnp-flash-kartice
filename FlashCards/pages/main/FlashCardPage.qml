@@ -33,7 +33,6 @@ Page {
                     var datamodel = []
                     for (var i = 0; i < flashCardsList.model.count; ++i) {
                         datamodel.push(flashCardsList.model.get(i))
-                        console.log(flashCardsList.model.get(i).question + " " + flashCardsList.model.get(i).keyword)
                     }
                     fileio.write(desktopPath + "/exportedData.json", JSON.stringify(datamodel))
                 }
@@ -49,11 +48,6 @@ Page {
             MenuItem {
                 text: qsTr("&Proširi kartice")
                 onClicked: {
-                    /*for (var cardIndex in flashCardsList.contentItem.children){
-                        var card = flashCardsList.itemAtIndex(cardIndex)
-                        if (card !== null)
-                            card.checked = true
-                    }*/
                     expandOrCollapse(true)
                 }
             }
@@ -124,7 +118,11 @@ Page {
         anchors.rightMargin: 20
         leftPadding: 30
         rightPadding: 30
-        onClicked: playQuiz(flashCardsList.model)
+        onClicked: {
+            flashCardsList.model.clear()
+            JS.dbReadAll()
+            playQuiz(flashCardsList.model)
+        }
     }
 
     FlashCardDialog {

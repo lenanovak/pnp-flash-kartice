@@ -7,5 +7,4 @@ ListModel {
     Component.onCompleted: {
         JS.dbReadAll()
     }
-
 }

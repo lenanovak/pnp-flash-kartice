@@ -11,10 +11,6 @@ import "qrc:/Database.js" as JS
 
 ApplicationWindow {
     id: window
-    //maximumWidth: 700
-    //minimumWidth: 700
-    //maximumHeight: 500
-    //minimumHeight: 500
     width: 700
     height: 500
     visible: true

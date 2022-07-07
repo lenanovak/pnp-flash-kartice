@@ -12,6 +12,8 @@ Page {
     property string question
     property string answer
 
+    property var prevQ: Array.from({length: questions.count}, (_, index) => index)
+
     property int rightAnswers: 0
     property int testedQuestions: 0
 
@@ -20,8 +22,10 @@ Page {
             noQuestions = true
             return
         }
+        var randomEl = prevQ[Math.floor(Math.random() * prevQ.length)]
+        let flashCard = questions.get(randomEl)
+        prevQ = prevQ.filter(e => e !== randomEl)
 
-        let flashCard = questions.get(Math.floor(Math.random() * questions.count))
         answer = flashCard.answer
         question = flashCard.question
         noQuestions = false
@@ -37,6 +41,8 @@ Page {
             text: noQuestions ? qsTr(" Potrebna barem jedna kartica! ") : (showAnswer ? answer : question)
             //font.pixelSize: Qt.application.font.pixelSize * (showAnswer ? 2 : 3)
             font.pixelSize: Qt.application.font.pixelSize * (showAnswer ? 3 : 2)
+            Layout.maximumWidth: Window.width - 100
+            wrapMode: Label.WordWrap
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
@@ -100,7 +106,6 @@ Page {
                 Material.background: Material.color(Material.Red, Material.Shade800)
                 onClicked: {
                     quizConfirmEndDialog.visible = true
-                    //quizFinishDialog.visible = true
                 }
             }
 
