@@ -12,7 +12,13 @@ Page {
     id: page
     signal playQuiz(FlashCardModel flashCardModel)
 
-    property bool expandButton: false
+    function expandOrCollapse(changeState) {
+        for (var cardIndex in flashCardsList.contentItem.children){
+            var card = flashCardsList.itemAtIndex(cardIndex)
+            if (card !== null)
+                card.checked = changeState
+        }
+    }
 
     header: MenuBar {
         Menu {
@@ -23,12 +29,13 @@ Page {
             }
             MenuItem {
                 text: qsTr("&Izvezi pitanja...")
-                // TODO
                 onClicked: {
                     var datamodel = []
-                    for (var i = 0; i < flashCardsList.model.count; ++i)
+                    for (var i = 0; i < flashCardsList.model.count; ++i) {
                         datamodel.push(flashCardsList.model.get(i))
-                    JS.saveData(datamodel, "exportedData/data.json")
+                        console.log(flashCardsList.model.get(i).question + " " + flashCardsList.model.get(i).keyword)
+                    }
+                    fileio.write(desktopPath + "/exportedData.json", JSON.stringify(datamodel))
                 }
             }
             MenuSeparator { }
@@ -42,19 +49,19 @@ Page {
             MenuItem {
                 text: qsTr("&Proširi kartice")
                 onClicked: {
-                    expandButton = true
-                    //flashCardDelegate.answerVisiblity = true
-                    //flashCardDelegate.keywordVisiblity = true
+                    /*for (var cardIndex in flashCardsList.contentItem.children){
+                        var card = flashCardsList.itemAtIndex(cardIndex)
+                        if (card !== null)
+                            card.checked = true
+                    }*/
+                    expandOrCollapse(true)
                 }
             }
             MenuItem {
                 text: qsTr("&Sažmi kartice")
                 onClicked: {
-                    expandButton = false
-                    //flashCardDelegate.answerVisiblity = false
-                    //flashCardDelegate.keywordVisiblity = false
+                    expandOrCollapse(false)
                 }
-
             }
         }
     }
@@ -83,12 +90,11 @@ Page {
         delegate: FlashCardDelegate {
             onUpdateFlashCard: {
                 flashCardDialog.selectedFlashCardIndex = index
-                // Ako se inicijalno odabere index = 0, ne prikazuju se informacije
                 flashCardDialog.visible = true
             }
+
             onDeleteFlashCard: {
                 flashCardDeleteDialog.selectedFlashCardIndex = index
-                // Ako se inicijalno odabere index = 0, ne prikazuju se informacije
                 flashCardDeleteDialog.visible = true
             }
         }
@@ -135,6 +141,12 @@ Page {
         flashCardModel: flashCardsList.model
     }
 
+    FlashCardDuplicateDialog {
+        id: flashCardDuplicateDialog
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+    }
+
     TextField {
         id: keywordSearch
         height: 46
@@ -150,7 +162,6 @@ Page {
             flashCardsList.model.clear()
             if (keywordSearch.text === "") {
                 JS.dbReadAll()
-                JS.checkDuplicates()
             } else {
                 var pattern = keywordSearch.text
                 JS.filter(pattern)

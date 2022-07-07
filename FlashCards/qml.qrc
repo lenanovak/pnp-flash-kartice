@@ -10,5 +10,7 @@
         <file>pages/quiz/QuizFinishDialog.qml</file>
         <file>Database.js</file>
         <file>pages/quiz/QuizConfirmEndDialog.qml</file>
+        <file>fileio.h</file>
+        <file>pages/main/FlashCardDuplicateDialog.qml</file>
     </qresource>
 </RCC>

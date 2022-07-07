@@ -9,33 +9,44 @@ Dialog {
     modal: true
     standardButtons: DialogButtonBox.Save | DialogButtonBox.Cancel
     width: 400
-
     title: isNewItem() ? qsTr("Dodaj novu karticu") :qsTr("Ažuriraj postojeću karticu")
 
     property FlashCardModel flashCardModel
-    property int selectedFlashCardIndex
+    property int selectedFlashCardIndex: -1
 
     function isNewItem() {
         return selectedFlashCardIndex === -1
     }
 
     function addFlashCard() {
-        JS.dbInsert(flashCardQuestionTextField.text, flashCardAnswerTextField.text, flashCardKeywordTextField.text)
+        if (JS.checkDuplicates(flashCardQuestionTextField.text, flashCardAnswerTextField.text, flashCardKeywordTextField.text)) {
+            flashCardDuplicateDialog.open()
+        } else {
+            JS.dbInsert(flashCardQuestionTextField.text, flashCardAnswerTextField.text, flashCardKeywordTextField.text)
+        }
     }
 
     function changeFlashCard() {
-        JS.dbUpdate(flashCardQuestionTextField.text,
-                    flashCardAnswerTextField.text,
-                    flashCardKeywordTextField.text,
-                    JS.getID(selectedFlashCardIndex),
-                    selectedFlashCardIndex)
+        if (JS.checkDuplicates(flashCardQuestionTextField.text, flashCardAnswerTextField.text, flashCardKeywordTextField.text)) {
+            flashCardDuplicateDialog.open()
+        } else {
+            JS.dbUpdate(flashCardQuestionTextField.text,
+                        flashCardAnswerTextField.text,
+                        flashCardKeywordTextField.text,
+                        JS.getID(selectedFlashCardIndex),
+                        selectedFlashCardIndex)
+        }
     }
 
     onAccepted: {
         isNewItem() ? addFlashCard() : changeFlashCard()
+        selectedFlashCardIndex = 0
     }
 
-    onRejected: flashCardDialog.close()
+    onRejected: {
+        flashCardDialog.close()
+        selectedFlashCardIndex = 0
+    }
 
     contentItem: ColumnLayout {
         GridLayout {
@@ -53,7 +64,6 @@ Dialog {
                 text: isNewItem() ? "" : flashCardsList.model.get(selectedFlashCardIndex).question
                 selectByMouse: true
                 maximumLength: 128
-                //onTextChanged: if (length > limitQuestion) remove(limitQuestion, length)
             }
 
             Label {
@@ -68,7 +78,6 @@ Dialog {
                 text: isNewItem() ? "" : flashCardsList.model.get(selectedFlashCardIndex).answer
                 selectByMouse: true
                 maximumLength: 128
-                //onTextChanged: if (length > limitAnswer) remove(limitAnswer, length)
             }
 
             Label {

@@ -1,5 +1,3 @@
-let deleted = 0
-
 function dbInit()
 {
     var db = LocalStorage.openDatabaseSync("FlashCardsDB", "", "Opening database", 1000000)
@@ -50,16 +48,26 @@ function dbInsert(question, answer, keyword)
                       [question, answer, keyword])
     })
 
-    checkDuplicates()
-    if (!deleted) {
-        console.log("Adding a new flashcard")
-        flashCardsList.model.append({
-                                        //id: id,
-                                        question: question,
-                                        answer: answer,
-                                        keyword: keyword
-                                    })
-    }
+    console.log("Adding a new flashcard")
+    flashCardsList.model.append({
+                                    //id: id,
+                                    question: question,
+                                    answer: answer,
+                                    keyword: keyword
+                                })
+
+}
+
+function checkDuplicates(question, answer, keyword)
+{
+    var db = dbGetHandle()
+    var results
+    db.transaction(function (tx) {
+        results = tx.executeSql(
+                    'SELECT * FROM flashcards WHERE 1=1 AND question = ? AND answer = ? AND keyword = ?', [question, answer, keyword])
+
+    })
+    return results.rows.length > 0
 }
 
 function getID(rowID)
@@ -108,30 +116,12 @@ function dbDeleteRow(id, rowID)
     flashCardsList.model.remove(rowID, 1)
 }
 
-function checkDuplicates() {
-    // druga opcija - vratiti results.rows.length, ako je veći od 1 korisniku se zabranjuje dodavanje / uređivanje
-    deleted = 0
-    var db = dbGetHandle()
-    db.transaction(function (tx) {
-        var results = tx.executeSql(
-                    'SELECT a.* FROM flashcards a JOIN (SELECT question, answer, keyword, COUNT(*) c FROM flashcards GROUP BY question, answer, keyword HAVING c > 1) b ON a.question = b.question and a.answer = b.answer and a.keyword = b.keyword')
-        for (var i = 1; i < results.rows.length; i++) {
-            db.transaction(function (tx) {
-                tx.executeSql('delete from flashcards where id = ?', [results.rows.item(i).id])
-            })
-            deleted = 1
-        }
-        flashCardsList.model.clear()
-        dbReadAll()
-    })
-}
-
 function filter(pattern) {
     var db = dbGetHandle()
     var patternFilter = '%' + pattern + '%'
     db.transaction(function (tx) {
         var results = tx.executeSql(
-                    'SELECT question,answer,keyword FROM flashcards WHERE keyword LIKE ?', [patternFilter])
+                    'SELECT DISTINCT question,answer,keyword FROM flashcards WHERE keyword LIKE ?', [patternFilter])
         for (var i = 0; i < results.rows.length; i++) {
             flashCardsList.model.append({
                                             question: results.rows.item(i).question,
@@ -140,13 +130,6 @@ function filter(pattern) {
                                         })
         }
     })
-}
-
-function saveData(model, fileUrl)
-{
-    var xhr = new XMLHttpRequest()
-    xhr.open("POST", fileUrl)
-    xhr.send(JSON.stringify(model))
 }
 
 function loadData(fileUrl)
@@ -166,8 +149,4 @@ function loadData(fileUrl)
     }
     xhr.send()
 }
-
-
-
-
 

@@ -13,8 +13,7 @@ ItemDelegate {
 
     signal updateFlashCard(int index)
     signal deleteFlashCard(int index)
-
-    //property alias labelNameText: labelname.text
+    signal resetFlashCards(bool visiblity)
 
     onClicked: ListView.view.currentIndex = index
 
@@ -25,15 +24,13 @@ ItemDelegate {
                 id: flashCardColumn
                 Label {
                     id: flashCardQuestion
-                    //font.pixelSize: Qt.application.font.pixelSize * 2
-                    font.pixelSize: text.length < 48 ? Qt.application.font.pixelSize * 2 : Qt.application.font.pixelSize * (text.length / 40)
+                    font.pixelSize: Qt.application.font.pixelSize * 2
                     text: model.question
                 }
             }
             Item {
                 Layout.fillWidth: true
             }
-
             Button {
                 id: updateFlashCardItem
                 text: qsTr("Uredi")
@@ -41,7 +38,6 @@ ItemDelegate {
                 rightPadding: 18
                 onClicked: updateFlashCard(index)
             }
-
             Button {
                 id: deleteFlashCardItem
                 text: qsTr("Obriši")
@@ -53,16 +49,13 @@ ItemDelegate {
         }
         Label {
             id: flashCardAnswer
-            visible: expandButton ? true : (flashCardDelegate.checked ? true : false)
+            visible: flashCardDelegate.checked
             text: "Odgovor: " + model.answer
-            //font.pixelSize: text.length < 48 ? Qt.application.font.pixelSize * 2 : Qt.application.font.pixelSize * (text.length / 40)
         }
         Label {
             id: flashCardKeyword
-            //visible: flashCardDelegate.checked
-            visible: expandButton ? true : (flashCardDelegate.checked ? true : false)
+            visible: flashCardDelegate.checked
             text: "Ključna riječ: " + model.keyword
-            //font.pixelSize: text.length < 48 ? Qt.application.font.pixelSize * 2 : Qt.application.font.pixelSize * (text.length / 40)
         }
     }
 }

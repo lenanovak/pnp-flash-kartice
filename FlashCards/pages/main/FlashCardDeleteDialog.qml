@@ -13,7 +13,7 @@ Dialog {
     title: qsTr("Želite li obrisati karticu?")
 
     property FlashCardModel flashCardModel
-    property int selectedFlashCardIndex
+    property int selectedFlashCardIndex: -1
 
     Label {
         anchors.fill: parent

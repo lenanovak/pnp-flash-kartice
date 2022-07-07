@@ -28,7 +28,8 @@ Demo: https://drive.google.com/file/d/14W2JVZ1Q0Z1n7RtkMrlV16BOWrPK_yPa/view?usp
 1. Clone the project
 2. Import `FlashCard.pro` into the QtCreator
 3. Run the project
-4. To add init data, click on the "Options / Import questions" (_"Opcije / Uvezi pitanja"_)action and choose `init_data.json` file
+4. To add init data, click on the "Options / Import questions" (_"Opcije / Uvezi pitanja"_) action and choose `init_data.json` file
+5. Exported data (action "Options / Export questions" (_Opcije / Izvezi pitanja"_)) will be located on users desktop as a .json file
 
 Created database can be found locally (for Windows): `C:\Users\username\AppData\Roaming\FlashCard\QML\OfflineStorage\Databases`
 

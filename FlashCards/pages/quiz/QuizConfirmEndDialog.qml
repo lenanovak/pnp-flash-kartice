@@ -11,17 +11,6 @@ Dialog {
     width: 400
     title: qsTr(" Želite li zaustaviti testiranje? ")
 
-    /*contentItem: Rectangle {
-        color: "transparent"
-        visible: !noQuestions
-        Label {
-            anchors.fill: parent
-            Layout.fillWidth: true
-            text: qsTr("Ukupan broj dostupnih pitanja: " + totalQuestions + "\nBroj testiranih pitanja: " + testedQuestions +
-                       "\nIspravno odgovorenih pitanja: " + rightAnswers + "\nTočnost: " + percentage + "%")
-        }
-    }*/
-
     onAccepted: {
         quizFinishDialog.visible = true
     }
